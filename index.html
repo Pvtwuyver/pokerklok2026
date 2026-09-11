@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111821">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peter's Poker Timer</title>
@@ -338,6 +341,14 @@ function resetBlinds(){state.blinds=DEFAULT_BLINDS.map(function(b){return b.slic
 function renderSchedule(){var s=state,total=s.settings.totalRounds,be=s.settings.breakEvery,tbody=document.getElementById('schedule-body');if(!tbody)return;var rows='';for(var i=0;i<total;i++){var b=s.blinds[Math.min(i,s.blinds.length-1)],ic=i===s.round,iba=(i+1)%be===0&&i+1<total,ir=s.settings.rebuyEnabled&&i+1===s.settings.rebuyCutoff;var tags=ir?'<span class="chip-tag chip-rebuy">Rebuy</span>':'';tags+=ic?'<span style="color:var(--gold-light);font-size:10px;font-weight:600">Nu</span>':'';rows+='<tr class="'+(ic?'current-row':'')+'"><td>'+(i+1)+'</td><td>'+fmtNum(b[0])+'</td><td>'+fmtNum(b[1])+'</td><td class="hide-mobile">--</td><td>'+s.settings.minutes+'m</td><td>'+tags+'</td></tr>';if(iba)rows+='<tr class="break-row"><td colspan="6" style="text-align:center">Break <span class="chip-tag chip-break">'+s.settings.breakDur+'m</span></td></tr>';}tbody.innerHTML=rows;}
 state.totalSeconds=state.settings.minutes*60;state.secondsLeft=state.totalSeconds;
 renderBlindEditor();renderPlayerNameGrid();updateUI();renderSchedule();
+  
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
 </script>
 </body>
 </html>
